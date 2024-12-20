@@ -24,7 +24,7 @@ async function ProductsNewPage({ params }: Props) {
   const obtenerProductos = async () => {
     const resolvedParams = await params; // Espera la promesa de params
     if (resolvedParams.id) {
-      let list = await getProduct(resolvedParams.id);
+      const list = await getProduct(resolvedParams.id);
       product = list;
     }
   };
