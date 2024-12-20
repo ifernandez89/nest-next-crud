@@ -8,14 +8,14 @@ import { createProduct,updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
 
 
-interface Product {
+/*interface Product {
   id: string;
   name: string;
   price: number;
   description: string;
-}
-
-export function ProductsForm({ product }: Product|any) {
+}*/
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ProductsForm({ product }: any) {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: product?.name,
