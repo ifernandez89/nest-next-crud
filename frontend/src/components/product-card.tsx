@@ -10,6 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { deleteProduct } from "@/app/products/products.api";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 /*interface Product {
   id: string;
@@ -47,7 +48,7 @@ export function ProductCard({ product }: any) {
             </span>
           </CardTitle>
         </CardHeader>
-        <img alt="imagen" src={product.image} />
+        <Image alt="imagen" src={product.image} width={500} height={300}/>
         <CardContent>
           <p>{product.description}</p>
         </CardContent>

@@ -8,6 +8,7 @@ import {
 import { getProduct } from "../products.api";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 
 interface Props {
@@ -31,7 +32,7 @@ async function ProductDetailPage({ params }: Props) {
             </span>
           </CardTitle>
         </CardHeader>
-        <img alt="imagen" src={product.image}  />
+        <Image alt="imagen" src={product.image} width={500} height={300} />
         <CardContent className="flex justify-between">
         <CardContent>
           Product Detail:
