@@ -10,7 +10,6 @@ import {
 import { Button } from "./ui/button";
 import { deleteProduct } from "@/app/products/products.api";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export function ProductCard({ product }: any) {
   //le envio el producto a mi componente
@@ -41,7 +40,7 @@ export function ProductCard({ product }: any) {
             </span>
           </CardTitle>
         </CardHeader>
-        <Image alt="imagen" src={product.image} />
+        <img alt="imagen" src={product.image} />
         <CardContent>
           <p>{product.description}</p>
         </CardContent>
