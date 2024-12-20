@@ -16,7 +16,7 @@ export function ProductCard({ product }: any) {
   //le envio el producto a mi componente
   const router = useRouter();
 
-  async function handleRemoveProduct(id) {
+  async function handleRemoveProduct(id: string) {
     if (confirm("¿Estás seguro de que deseas eliminarlo?")) {
       console.log("Eliminado");
       await deleteProduct(id);
