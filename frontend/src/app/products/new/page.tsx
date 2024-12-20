@@ -16,6 +16,7 @@ interface PageProps {
 
 async function ProductsNewPage({ params }: PageProps) {
   // Aquí puedes usar directamente `params.id` sin necesidad de esperar a una promesa
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
 
   const obtenerProductos = async () => {
