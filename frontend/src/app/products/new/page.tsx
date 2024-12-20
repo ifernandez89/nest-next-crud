@@ -8,10 +8,17 @@ import { getProduct } from "../products.api";
 interface Props {
   params: Promise<{ id: string }>;
 }
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
   
 async function ProductsNewPage({ params }: Props) {
   //const product = await getProduct(params.id); //lado servidor, hace la consulta y se la envia a productForm: lado cliente
-  let product: any = [];
+  let product: Product|any = [];
 
   const obtenerProductos = async () => {
     const resolvedParams = await params; // Espera la promesa de params

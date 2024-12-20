@@ -11,7 +11,14 @@ import { Button } from "./ui/button";
 import { deleteProduct } from "@/app/products/products.api";
 import { useRouter } from "next/navigation";
 
-export function ProductCard({ product }: any) {
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+export function ProductCard({ product }: Product|any) {
   //le envio el producto a mi componente
   const router = useRouter();
 

@@ -7,7 +7,15 @@ import { useForm } from "react-hook-form";
 import { createProduct,updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
 
-export function ProductsForm({ product }: any) {
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+export function ProductsForm({ product }: Product|any) {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: product?.name,

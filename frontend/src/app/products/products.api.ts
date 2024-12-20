@@ -1,6 +1,14 @@
 //funciones que piden al backend
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+
 export async function getProducts() {
   const data = await fetch(`${BACKEND_URL}/api/products`, {
     cache: "no-store",
@@ -15,7 +23,7 @@ export async function getProduct(id: string) {
   return await data.json(); //debe esperar hasta que se resuelva la respuesta antes de retornarla
 }
 
-export async function createProduct(productData: any) {
+export async function createProduct(productData: Product|any) {
   const res = await fetch(`${BACKEND_URL}/api/products`, {
     method: "POST",
     headers: {
@@ -27,7 +35,7 @@ export async function createProduct(productData: any) {
   console.log(data);
 }
 
-export async function updateProduct(id: string, newProduct: any) {
+export async function updateProduct(id: string, newProduct: Product|any) {
   const res = await fetch(`${BACKEND_URL}/api/products/${id}`, {
     method: "PATCH",
     headers: {
