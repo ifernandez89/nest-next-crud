@@ -5,26 +5,22 @@ import { getProduct } from "../products.api";
 /*interface Props {
   params: { id: string };
 }*/
-interface Props {
-  params: Promise<{ id: string }>;
+/*interface PageProps {
+  params: {
+    id: string;
+  };
+}*/
+interface PageProps {
+  params: { id: string };
 }
 
-/*interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-}*/
-  
-async function ProductsNewPage({ params }: Props) {
-  //const product = await getProduct(params.id); //lado servidor, hace la consulta y se la envia a productForm: lado cliente
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function ProductsNewPage({ params }: PageProps) {
+  // Aquí puedes usar directamente `params.id` sin necesidad de esperar a una promesa
   let product: any = [];
 
   const obtenerProductos = async () => {
-    const resolvedParams = await params; // Espera la promesa de params
-    if (resolvedParams.id) {
-      const list = await getProduct(resolvedParams.id);
+    if (params.id) {
+      const list = await getProduct(params.id);
       product = list;
     }
   };
@@ -36,7 +32,7 @@ async function ProductsNewPage({ params }: Props) {
       <Card>
         <CardHeader>
           <CardTitle>
-            {(await params).id ? "Edit Product" : "New Product"}
+            {params.id ? "Edit Product" : "New Product"}
           </CardTitle>
         </CardHeader>
 
