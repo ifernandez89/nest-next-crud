@@ -8,7 +8,6 @@ export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   description: string;
 }*/
 
-
 export async function getProducts() {
   const data = await fetch(`${BACKEND_URL}/api/products`, {
     cache: "no-store",

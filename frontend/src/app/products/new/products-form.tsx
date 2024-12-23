@@ -3,10 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-
 import { createProduct,updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
-
 
 /*interface Product {
   id: string;
