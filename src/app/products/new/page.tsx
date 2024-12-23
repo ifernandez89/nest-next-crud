@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductsForm } from "./products-form";
-import { getProduct } from "../products.api";
+//import { getProduct } from "../products.api";
 
 /*interface Props {
   params: { id: string };
