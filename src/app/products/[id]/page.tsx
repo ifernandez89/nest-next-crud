@@ -32,7 +32,7 @@ async function ProductDetailPage({ params }: Props) {
           </CardTitle>
         </CardHeader>
         <Image alt="imagen" src={product.image} width={500} height={300} />
-        <CardContent className="flex justify-between">
+        <CardContent className="flex justify-between mt-5">
           <p className="text-sm font-bold text-gray-500">{product.description}</p>
             <Link href="/" className={buttonVariants()}>
               Go Back
