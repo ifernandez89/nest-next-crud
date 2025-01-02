@@ -16,9 +16,8 @@ async function ProductsNewPage({ params }: PageProps) {
   let product: any = [];
 
   const obtenerProductos = async () => {
-    const resolvedParams = await params;
-    if (resolvedParams.id) {
-      const list = await getProduct(resolvedParams.id);
+    if (params.id) {
+      const list = await getProduct(params.id);
       product = list;
     }
   };
@@ -30,7 +29,7 @@ async function ProductsNewPage({ params }: PageProps) {
       <Card>
         <CardHeader>
           <CardTitle>
-            {resolvedParams.id ? "Edit Product" : "New Product"}
+            {params.id ? "Edit Product" : "New Product"}
           </CardTitle>
         </CardHeader>
 
