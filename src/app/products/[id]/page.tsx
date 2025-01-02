@@ -42,7 +42,7 @@ async function ProductDetailPage({ params }: Props) {
           <p>{product.description}</p>
           </CardContent>
           <Link href="/" className={buttonVariants()}>
-              Volver
+          Go Back
             </Link>
         </CardContent>
         <CardFooter className="flex justify-between "></CardFooter>

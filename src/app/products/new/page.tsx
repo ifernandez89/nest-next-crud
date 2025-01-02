@@ -4,8 +4,8 @@ import { getProduct } from "../products.api";
 
 /*interface Props {
   params: { id: string };
-}*/
-/*interface PageProps {
+}
+interface PageProps {
   params: {
     id: string;
   };
@@ -34,7 +34,7 @@ async function ProductsNewPage({ params }: PageProps) {
       <Card>
         <CardHeader>
           <CardTitle>
-            {params.id ? "Edit Product" : "New Product"}
+            {product.id ? "Edit Product" : "New Product"}
           </CardTitle>
         </CardHeader>
 

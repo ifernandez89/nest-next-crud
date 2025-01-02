@@ -1,10 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-import { createProduct,updateProduct } from "../products.api";
+import { createProduct, updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { CardContent } from "@/components/ui/card";
 
 /*interface Product {
   id: string;
@@ -22,25 +24,26 @@ export function ProductsForm({ product }: any) {
       image: product?.image,
     },
   }); //aca puedo cargarle valores por defecto
-  
+
   const router = useRouter();
-  const params = useParams<{id:string}>();
+  const params = useParams<{ id: string }>();
 
   const onSubmit = handleSubmit(async (data) => {
     const priceString = data.price.toString();
-    const cleanedPrice = parseFloat(priceString.replace(/[^0-9.-]+/g, ''));
-    if(params?.id){
-      await updateProduct(params.id,{
+    const cleanedPrice = parseFloat(priceString.replace(/[^0-9.-]+/g, ""));
+    if (params?.id) {
+      await updateProduct(params.id, {
         ...data,
-      //price: parseFloat(data.price),//si no se parsea, no guarda el valor
-      price: cleanedPrice,
+        //price: parseFloat(data.price),//si no se parsea, no guarda el valor
+        price: cleanedPrice,
       });
-    }else{
-    await createProduct({
-      ...data,
-      //: parseFloat(data.price),
-      price: cleanedPrice,
-    });}
+    } else {
+      await createProduct({
+        ...data,
+        //: parseFloat(data.price),
+        price: cleanedPrice,
+      });
+    }
     router.push("/");
     router.refresh();
   });
@@ -54,10 +57,14 @@ export function ProductsForm({ product }: any) {
       <Input {...register("price")} />
       <Label>Image</Label>
       <Input {...register("image")} />
-
-      <Button className="mt-5">
-        {params.id ? "Update Product" : "Create Product"}
-      </Button>
+      <CardContent className="flex justify-between mt-5">
+        <CardContent>
+          <Button>{params.id ? "Update Product" : "Create Product"}</Button>
+        </CardContent>
+        <Link href="/" className={buttonVariants()}>
+          Go Back
+        </Link>
+      </CardContent>
     </form>
   );
 }
