@@ -9,22 +9,28 @@ import { getProduct } from "../products.api";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { NextPageContext } from "next";
 
 /*interface Props {
   params: {
     id: string;
   };
-}*/
-
+}
 interface PageProps {
   params: Promise<{ id: string }>;
+}*/
+
+interface MyPageProps extends NextPageContext {
+  params: {
+    id: string; // Assuming 'id' is a string 
+  };
 }
 
 const formatPrice = (price: number) => {
   return price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 };
 
-async function ProductDetailPage({ params }: PageProps) {
+async function ProductDetailPage({ params }: MyPageProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
   const resolvedParams = await params;
