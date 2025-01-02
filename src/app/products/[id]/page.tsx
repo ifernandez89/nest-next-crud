@@ -10,19 +10,29 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
-interface Props {
+/*interface Props {
   params: {
     id: string;
   };
+}*/
+
+interface PageProps {
+  params: Promise<{ id: string }>;
 }
 
 const formatPrice = (price: number) => {
   return price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 };
 
-async function ProductDetailPage({ params }: Props) {
-  const product = await getProduct(params.id);
-  console.log(product);
+async function ProductDetailPage({ params }: PageProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let product: any = [];
+  const resolvedParams = await params;
+    if (resolvedParams.id) {
+      const list = await getProduct(resolvedParams.id);
+      product = list;
+      console.log(product);
+    }
 
   return (
     <div className="flex justify-center">

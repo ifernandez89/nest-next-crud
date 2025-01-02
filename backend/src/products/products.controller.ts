@@ -11,7 +11,9 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @ApiOperation({summary: 'Create a product'})
+  @ApiOperation({ summary: 'Create a product' })
+  @ApiResponse({ status: 201, description: 'The product has been successfully created.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
