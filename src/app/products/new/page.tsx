@@ -1,20 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductsForm } from "./products-form";
 import { getProduct } from "../products.api";
+import { NextPageContext } from "next";
 
-/*interface Props {
-  params: { id: string };
-}
-interface PageProps {
+/*interface PageProps {
   params: {
     id: string;
   };
 }*/
-interface PageProps {
+/*interface PageProps {
   params: Promise<{ id: string }>;
+}*/
+
+interface MyPageProps extends NextPageContext {
+  params: {
+    id: string; // Assuming 'id' is a string 
+  };
 }
 
-async function ProductsNewPage({ params }: PageProps) {
+async function ProductsNewPage({ params }: MyPageProps) {
   // Aquí puedes usar directamente `params.id` sin necesidad de esperar a una promesa
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
