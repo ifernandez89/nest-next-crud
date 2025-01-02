@@ -14,25 +14,28 @@ import { NextPageContext } from "next";
 
 interface MyPageProps extends NextPageContext {
   params: {
-    id: string; // Assuming 'id' is a string 
+    [id: string]: never;
   };
 }
 
 async function ProductsNewPage({ params }: MyPageProps) {
-  // Aquí puedes usar directamente `params.id` sin necesidad de esperar a una promesa
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
 
-  const obtenerProductos = async () => {
-    const resolvedParams = await params;
-    if (resolvedParams.id) {
-      const list = await getProduct(resolvedParams.id);
-      product = list;
-    }
-  };
-
-  await obtenerProductos();
-
+  try {
+    const obtenerProductos = async () => {
+      const resolvedParams = await params;
+      if (resolvedParams.id) {
+        const list = await getProduct(resolvedParams.id);
+        product = list;
+      }
+    };
+    await obtenerProductos();
+  } catch (err) {
+    // Handle errors appropriately (e.g., log, display error message)
+    console.error('Error fetching product:', err);
+  }
+  
   return (
     <div className="h-screen flex justify-center items-center">
       <Card>
