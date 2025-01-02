@@ -33,6 +33,10 @@ export function ProductCard({ product }: any) {
     }
   }
 
+  const formatPrice = (price: number) => {
+    return price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  };
+
   return (
     <>
       <Card
@@ -44,7 +48,7 @@ export function ProductCard({ product }: any) {
           <CardTitle className="flex justify-between">
             {product.name}
             <span className="text-sm font-bold text-gray-500">
-              ${product.price}
+            ${formatPrice(product.price)}
             </span>
           </CardTitle>
         </CardHeader>

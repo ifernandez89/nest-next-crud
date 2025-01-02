@@ -4,10 +4,12 @@ import { getProduct } from "../products.api";
 
 /*interface Props {
   params: { id: string };
-}*/
-
+}
 interface PageProps {
   params: { id: string };
+}*/
+interface PageProps {
+  params: Promise<{ id: string }>;
 }
 
 async function ProductsNewPage({ params }: PageProps) {
@@ -16,8 +18,9 @@ async function ProductsNewPage({ params }: PageProps) {
   let product: any = [];
 
   const obtenerProductos = async () => {
-    if (params.id) {
-      const list = await getProduct(params.id);
+    const resolvedParams = await params;
+    if (resolvedParams.id) {
+      const list = await getProduct(resolvedParams.id);
       product = list;
     }
   };
@@ -29,7 +32,7 @@ async function ProductsNewPage({ params }: PageProps) {
       <Card>
         <CardHeader>
           <CardTitle>
-            {params.id ? "Edit Product" : "New Product"}
+            {product.id ? "Edit Product" : "New Product"}
           </CardTitle>
         </CardHeader>
 

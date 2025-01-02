@@ -17,6 +17,10 @@ interface Props {
   };
 }
 
+const formatPrice = (price: number) => {
+  return price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+};
+
 async function ProductDetailPage({ params }: Props) {
   const product = await getProduct(params.id);
   console.log(product);
@@ -28,18 +32,18 @@ async function ProductDetailPage({ params }: Props) {
           <CardTitle className="flex justify-between">
             {product.name}
             <span className="text-sm font-bold text-gray-500">
-              ${product.price}
+            ${formatPrice(product.price)}
             </span>
           </CardTitle>
         </CardHeader>
         <Image alt="imagen" src={product.image} width={500} height={300} />
-        <CardContent className="flex justify-between">
-        <CardContent>
+        <CardContent className="mt-6 flex justify-between">
+        <CardContent> 
           Product Detail:
           <p>{product.description}</p>
           </CardContent>
           <Link href="/" className={buttonVariants()}>
-              Go Back
+              Volver
             </Link>
         </CardContent>
         <CardFooter className="flex justify-between "></CardFooter>

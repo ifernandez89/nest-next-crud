@@ -27,15 +27,19 @@ export function ProductsForm({ product }: any) {
   const params = useParams<{id:string}>();
 
   const onSubmit = handleSubmit(async (data) => {
+    const priceString = data.price.toString();
+    const cleanedPrice = parseFloat(priceString.replace(/[^0-9.-]+/g, ''));
     if(params?.id){
       await updateProduct(params.id,{
         ...data,
-      price: parseFloat(data.price),//si no se parsea, no guarda el valor
+      //price: parseFloat(data.price),//si no se parsea, no guarda el valor
+      price: cleanedPrice,
       });
     }else{
     await createProduct({
       ...data,
-      price: parseFloat(data.price),
+      //price: parseFloat(data.price),
+      price: cleanedPrice,
     });}
     router.push("/");
     router.refresh();
