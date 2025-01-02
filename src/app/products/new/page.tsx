@@ -5,11 +5,7 @@ import { getProduct } from "../products.api";
 /*interface Props {
   params: { id: string };
 }*/
-/*interface PageProps {
-  params: {
-    id: string;
-  };
-}*/
+
 interface PageProps {
   params: { id: string };
 }
