@@ -18,8 +18,18 @@ interface Props {
 }
 
 async function ProductDetailPage({ params }: Props) {
-  const product = await getProduct(params.id);
-  console.log(product);
+  let product: any = undefined;
+  try{
+  const resolvedParams = await params;
+      if (resolvedParams.id) {
+
+        product = await getProduct(params.id);
+        console.log(product);
+
+      }} catch (err) {
+    // Handle errors appropriately (e.g., log, display error message)
+    console.error('Error fetching product:', err);}
+
 
   return (
     <div className="flex justify-center">

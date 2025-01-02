@@ -3,10 +3,20 @@ import { ProductsForm } from "../../new/products-form";
 import { getProduct } from "../../products.api";
 import { NextPageContext } from "next";
 
-interface MyPageProps extends NextPageContext {
+type SegmentParams = {
+  id: string;
+};
+
+/*interface MyPageProps extends NextPageContext {
   params: {
     [id: string]: never;
   };
+}*/
+
+interface MyPageProps {
+  params?: Promise<SegmentParams> | { [id: string]: never }
+  searchParams?: Promise<any>
+  err?: (Error & { statusCode?: number }) | null
 }
 
 async function ProductsEditPage({ params }: MyPageProps) {
@@ -16,7 +26,7 @@ async function ProductsEditPage({ params }: MyPageProps) {
   try {
     const obtenerProductos = async () => {
       const resolvedParams = await params;
-      if (resolvedParams.id) {
+      if (resolvedParams?.id) {
         const list = await getProduct(resolvedParams.id);
         product = list;
       }
