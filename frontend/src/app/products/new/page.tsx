@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductsForm } from "./products-form";
 import { getProduct } from "../products.api";
-import { NextPageContext } from "next";
+import { NextPage } from "next";
 
 /*interface Props {
   params: { id: string };
@@ -11,9 +11,9 @@ import { NextPageContext } from "next";
     id: string;
   };
 }*/
-interface MyPageProps extends NextPageContext {
+interface MyPageProps {
   params: {
-    [id: string]: never;
+    id: string|undefined;
   };
 }
 
