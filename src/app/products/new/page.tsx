@@ -12,11 +12,22 @@ import { NextPageContext } from "next";
   params: Promise<{ id: string }>;
 }*/
 
-interface MyPageProps extends NextPageContext {
+/*interface MyPageProps extends NextPageContext {
   params: {
     [id: string]: never;
   };
+}*/
+interface PageProps {
+  params: { id: string };
+  searchParams?: any;
+  err?: (Error & { statusCode?: number }) | null;
 }
+
+
+interface MyPageProps extends NextPageContext {
+  params: { id: string };
+}
+
 
 async function ProductsNewPage({ params }: MyPageProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
