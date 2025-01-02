@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductsForm } from "./products-form";
 import { getProduct } from "../products.api";
+import { NextPageContext } from "next";
 
 /*interface Props {
   params: { id: string };
@@ -10,30 +11,36 @@ import { getProduct } from "../products.api";
     id: string;
   };
 }*/
-interface PageProps {
-  params: { id: string };
+interface MyPageProps extends NextPageContext {
+  params: {
+    [id: string]: never;
+  };
 }
 
-async function ProductsNewPage({ params }: PageProps) {
-  // Aquí puedes usar directamente `params.id` sin necesidad de esperar a una promesa
+async function ProductsNewPage({ params }: MyPageProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
 
-  const obtenerProductos = async () => {
-    if (params.id) {
-      const list = await getProduct(params.id);
-      product = list;
-    }
-  };
-
-  await obtenerProductos();
+  try {
+    const obtenerProductos = async () => {
+      const resolvedParams = await params;
+      if (resolvedParams.id) {
+        const list = await getProduct(resolvedParams.id);
+        product = list;
+      }
+    };
+    await obtenerProductos();
+  } catch (err) {
+    // Handle errors appropriately (e.g., log, display error message)
+    console.error('Error fetching product:', err);
+  }
 
   return (
     <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
           <CardTitle>
-            {params.id ? "Edit Product" : "New Product"}
+            New Product
           </CardTitle>
         </CardHeader>
 
