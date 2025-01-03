@@ -1,61 +1,63 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ProductsForm } from "./products-form";
 import { getProduct } from "../products.api";
-import { buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import Image from "next/image";
 
-
-interface Props {
+/*interface PageProps {
   params: {
     id: string;
   };
+}interface PageProps {
+  params: Promise<{ id: string }>;
+}*/
+
+interface PageProps {
+  params: { id: string };
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  searchParams?: any;
+  err?: (Error & { statusCode?: number }) | null;
 }
 
-async function ProductDetailPage({ params }: Props) {
-  let product: any = undefined;
-  try{
-  const resolvedParams = await params;
+/*interface MyPageProps extends NextPageContext {
+  params: { id: string };
+}*/
+
+async function ProductsNewPage({ params }: PageProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let product: any = [];
+
+  try {
+    const obtenerProductos = async () => {
+      /*const resolvedParams = await params;
       if (resolvedParams.id) {
-
-        product = await getProduct(params.id);
-        console.log(product);
-
-      }} catch (err) {
+        const list = await getProduct(resolvedParams.id);
+        product = list;
+      }*/
+        if (params.id) {
+          const list = await getProduct(params.id);
+          product = list;
+        }
+    };
+    await obtenerProductos();
+  } catch (err) {
     // Handle errors appropriately (e.g., log, display error message)
-    console.error('Error fetching product:', err);}
-
-
+    console.error('Error fetching product:', err);
+  }
+  
   return (
-    <div className="flex justify-center">
+    <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
-          <CardTitle className="flex justify-between">
-            {product.name}
-            <span className="text-sm font-bold text-gray-500">
-              ${product.price}
-            </span>
+          <CardTitle>
+            {product.id ? "Edit Product" : "New Product"}
           </CardTitle>
         </CardHeader>
-        <Image alt="imagen" src={product.image} width={500} height={300} />
-        <CardContent className="flex justify-between">
+
         <CardContent>
-          Product Detail:
-          <p>{product.description}</p>
-          </CardContent>
-          <Link href="/" className={buttonVariants()}>
-              Go Back
-            </Link>
+          <ProductsForm product={product}/>
         </CardContent>
-        <CardFooter className="flex justify-between "></CardFooter>
       </Card>
     </div>
   );
 }
 
-export default ProductDetailPage;
+export default ProductsNewPage;
