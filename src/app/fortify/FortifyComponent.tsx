@@ -9,7 +9,6 @@ const FortifyComponent = () => {
     body.style.background = '#6D7D87';
     body.style.margin = '0'; // Resetear márgenes
     body.style.padding = '0'; // Resetear padding
-    //body.style.marginBottom = '150px'; // Agregar margen inferior
 
     // Agregar el enlace de la fuente
     const fontLink = document.createElement('link');
@@ -53,6 +52,17 @@ const FortifyComponent = () => {
       document.body.appendChild(fortifyCertificates);
     };
     document.body.appendChild(script);
+
+    // Limpiar los elementos añadidos al desmontar el componente
+    return () => {
+      document.head.removeChild(fontLink);
+      document.head.removeChild(styleLink);
+      document.body.removeChild(script);
+      const fortifyCertificates = document.querySelector('peculiar-fortify-certificates');
+      if (fortifyCertificates) {
+        document.body.removeChild(fortifyCertificates);
+      }
+    };
   }, []);
 
   return null; // El componente se renderiza dinámicamente
