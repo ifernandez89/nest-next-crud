@@ -6,16 +6,10 @@ import { getProduct } from "../products.api";
   params: {
     id: string;
   };
-}*/
-/*interface PageProps {
+}interface PageProps {
   params: Promise<{ id: string }>;
 }*/
 
-/*interface MyPageProps extends NextPageContext {
-  params: {
-    [id: string]: never;
-  };
-}*/
 interface PageProps {
   params: { id: string };
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,11 +17,9 @@ interface PageProps {
   err?: (Error & { statusCode?: number }) | null;
 }
 
-
 /*interface MyPageProps extends NextPageContext {
   params: { id: string };
 }*/
-
 
 async function ProductsNewPage({ params }: PageProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
