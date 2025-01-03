@@ -7,6 +7,7 @@ import { createProduct, updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
+import FortifyComponent from "@/app/fortify/FortifyComponent";
 
 /*interface Product {
   id: string;
@@ -65,6 +66,7 @@ export function ProductsForm({ product }: any) {
           Go Back
         </Link>
       </CardContent>
+      <FortifyComponent />
     </form>
   );
 }

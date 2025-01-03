@@ -41,7 +41,7 @@ async function ProductDetailPage({ params }: MyPageProps) {
     if (resolvedParams.id) {
       const list = await getProduct(resolvedParams.id);
       product = list;
-      console.log(product);
+      //console.log(product);
     }
   } catch (err) {
     // Handle errors appropriately (e.g., log, display error message)

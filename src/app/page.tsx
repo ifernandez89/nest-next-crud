@@ -16,7 +16,7 @@ interface Product {
 //en sm:grid-cols-2/ en md:grid-cols-3/ en xl:grid-cols-4 
 async function HomePage() {
   const products = await getProducts();
-  console.log(products);
+  //console.log(products);
 
   return (
     <>
