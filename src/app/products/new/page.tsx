@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProductsForm } from "./products-form";
 import { getProduct } from "../products.api";
-import { NextPageContext } from "next";
 
 /*interface PageProps {
   params: {
@@ -19,27 +18,32 @@ import { NextPageContext } from "next";
 }*/
 interface PageProps {
   params: { id: string };
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchParams?: any;
   err?: (Error & { statusCode?: number }) | null;
 }
 
 
-interface MyPageProps extends NextPageContext {
+/*interface MyPageProps extends NextPageContext {
   params: { id: string };
-}
+}*/
 
 
-async function ProductsNewPage({ params }: MyPageProps) {
+async function ProductsNewPage({ params }: PageProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
 
   try {
     const obtenerProductos = async () => {
-      const resolvedParams = await params;
+      /*const resolvedParams = await params;
       if (resolvedParams.id) {
         const list = await getProduct(resolvedParams.id);
         product = list;
-      }
+      }*/
+        if (params.id) {
+          const list = await getProduct(params.id);
+          product = list;
+        }
     };
     await obtenerProductos();
   } catch (err) {
