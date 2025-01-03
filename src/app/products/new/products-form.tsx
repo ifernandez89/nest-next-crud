@@ -29,6 +29,12 @@ export function ProductsForm({ product }: any) {
   const router = useRouter();
   const params = useParams<{ id: string }>();
 
+  const handleSignDocument = () => {
+    // Lógica para disparar el componente FortifyComponent
+    console.log('Firmar un Documento');
+    // Aquí puedes agregar cualquier lógica adicional que necesites
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     const priceString = data.price.toString();
     const cleanedPrice = parseFloat(priceString.replace(/[^0-9.-]+/g, ""));
@@ -66,7 +72,7 @@ export function ProductsForm({ product }: any) {
           Go Back
         </Link>
       </CardContent>
-      <FortifyComponent />
+      
     </form>
   );
 }

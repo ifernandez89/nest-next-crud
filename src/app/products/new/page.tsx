@@ -22,14 +22,11 @@ interface MyPageProps extends NextPageContext {
   params: Promise<{ id: string }>;
 }*/
 
-
 async function ProductsNewPage({ params }: PageProps) {
-
 //const params = useParams<{ id: string }>();
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let product: any = [];
-
   //try {
     //const obtenerProductos = useDebouncedCallback( async () => {
         const obtenerProductos = async () => {
