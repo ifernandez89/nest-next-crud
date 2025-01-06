@@ -2,11 +2,23 @@
 import { useEffect } from 'react';
 
 const FortifyComponent = () => {
-  useEffect(() => {
+
+    useEffect(() => {
+     // Verificar si la página ya se ha recargado
+    const hasReloaded = sessionStorage.getItem('hasReloaded');
+
+    if (!hasReloaded) {
+      // Establecer el indicador en sessionStorage
+      sessionStorage.setItem('hasReloaded', 'true');
+      // Recargar la página
+      window.location.reload();
+      return; // Salir del efecto para evitar ejecutar el resto del código
+    }
+    
     // Estilos globales para el body
     const body = document.body;
     body.style.height = '100vh';
-    body.style.background = '#6D7D87';
+    //body.style.background = '#6D7D87';
     body.style.margin = '0'; // Resetear márgenes
     body.style.padding = '0'; // Resetear padding
 
@@ -29,14 +41,14 @@ const FortifyComponent = () => {
     script.onload = () => {
       // Crear el componente Fortify
       const fortifyCertificates = document.createElement('peculiar-fortify-certificates');
-      fortifyCertificates.debug = true;
-      fortifyCertificates.filters = {};
+      (fortifyCertificates as any).debug = true;
+      (fortifyCertificates as any).filters = {};
 
       // Estilos en línea para el componente
       fortifyCertificates.style.maxWidth = '660px';
       fortifyCertificates.style.width = 'calc(100% - 20px)';
       fortifyCertificates.style.margin = '20px auto';
-      fortifyCertificates.style.marginBottom = '150px';
+      //fortifyCertificates.style.marginBottom = '150px';
 
       // Agregar eventos
       fortifyCertificates.addEventListener('selectionCancel', () => {
@@ -49,7 +61,7 @@ const FortifyComponent = () => {
         alert('providerId: ' + event.detail.providerId);
       });
 
-      document.body.appendChild(fortifyCertificates);
+      document.getElementById('fortify-container')?.appendChild(fortifyCertificates);
     };
     document.body.appendChild(script);
 
@@ -60,12 +72,16 @@ const FortifyComponent = () => {
       document.body.removeChild(script);
       const fortifyCertificates = document.querySelector('peculiar-fortify-certificates');
       if (fortifyCertificates) {
-        document.body.removeChild(fortifyCertificates);
+        document.getElementById('fortify-container')?.removeChild(fortifyCertificates);
       }
     };
   }, []);
 
-  return null; // El componente se renderiza dinámicamente
+  return (
+    <div id="fortify-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      {/* El componente se renderiza dinámicamente */}
+    </div>
+  );
 };
 
 export default FortifyComponent;
