@@ -1,8 +1,24 @@
 "use client";
 import { useEffect } from "react";
-
+import { useRouter } from "next/navigation";
 const FortifyEnrollmentComponent = () => {
+  const router = useRouter();
   useEffect(() => {
+    // Verificar si la página ya se ha recargado
+    const hasReloaded = sessionStorage.getItem("hasReloaded");
+   
+    if (!hasReloaded) {
+      // Establecer el indicador en sessionStorage
+      sessionStorage.setItem("hasReloaded", "true");
+      // Recargar la página
+      window.location.reload();
+      return; // Salir del efecto para evitar ejecutar el resto del código
+    }
+
+    // Estilos globales para el body
+    const body = document.body;
+    body.style.height = "100vh";
+
     // Agregar el enlace de la fuente
     const fontLink = document.createElement("link");
     fontLink.href =
@@ -26,12 +42,18 @@ const FortifyEnrollmentComponent = () => {
       // Crear el componente Fortify
       const fortifyEnrollment = document.createElement(
         "peculiar-fortify-enrollment"
-      ) as HTMLElement & { debug?: boolean; filters?: Record<string, any> };
-      fortifyEnrollment.debug = true;
-      fortifyEnrollment.filters = {};
+      );
+      (fortifyEnrollment as any).debug = true;
+      (fortifyEnrollment as any).filters = {};
+
+      // Estilos en línea para el componente
+      fortifyEnrollment.style.maxWidth = "660px";
+      fortifyEnrollment.style.width = "calc(100% - 20px)";
+      fortifyEnrollment.style.margin = "20px auto";
 
       // Agregar eventos
       fortifyEnrollment.addEventListener("creationCancel", () => {
+        router.push(`/fortify`);
         console.log("creationCancel");
       });
 
@@ -47,25 +69,39 @@ const FortifyEnrollmentComponent = () => {
         console.log(event);
       });
 
-      // Insertar el componente en el DOM
-      const parent = document.querySelector("section");
-      if (parent) {
-        parent.insertBefore(fortifyEnrollment, parent.firstChild);
-      }
+     // Insertar el componente en el DOM
+     const container = document.getElementById("fortify-container");
+     if (container) {
+       container.appendChild(fortifyEnrollment);
+     }
     };
     document.body.appendChild(script);
 
-    // Agregar estilos globales
-    document.body.style.height = "100vh";
-    document.body.style.background = "#6D7D87";
+    // Limpiar los elementos añadidos al desmontar el componente
+    return () => {
+      document.head.removeChild(fontLink);
+      document.head.removeChild(styleLink);
+      document.body.removeChild(script);
+      const fortifyEnrollment = document.querySelector(
+        "peculiar-fortify-certificates"
+      );
+      if (fortifyEnrollment) {
+        document
+          .getElementById("fortify-container")
+          ?.removeChild(fortifyEnrollment);
+      }
+    };
+    
   }, []);
 
   return (
     <section
+      id="fortify-container"
       style={{
-        maxWidth: "660px",
-        width: "calc(100% - 20px)",
-        margin: "20px auto",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
       }}
     ></section>
   );

@@ -1,10 +1,11 @@
 "use client";
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const FortifyCertificatesComponent = () => {
-
+  const router = useRouter();
     useEffect(() => {
      // Verificar si la página ya se ha recargado
     const hasReloaded = sessionStorage.getItem('hasReloaded');
@@ -21,8 +22,8 @@ const FortifyCertificatesComponent = () => {
     const body = document.body;
     body.style.height = '100vh';
     //body.style.background = '#6D7D87';
-    body.style.margin = '0'; // Resetear márgenes
-    body.style.padding = '0'; // Resetear padding
+   /* body.style.margin = '0'; // Resetear márgenes
+    body.style.padding = '0'; // Resetear padding*/
 
     // Agregar el enlace de la fuente
     const fontLink = document.createElement('link');
@@ -50,11 +51,11 @@ const FortifyCertificatesComponent = () => {
       fortifyCertificates.style.maxWidth = '660px';
       fortifyCertificates.style.width = 'calc(100% - 20px)';
       fortifyCertificates.style.margin = '20px auto';
-      //fortifyCertificates.style.marginBottom = '150px';
 
       // Agregar eventos
       fortifyCertificates.addEventListener('selectionCancel', () => {
-        alert('selectionCancel');
+        router.push(`/`);
+        //alert('selectionCancel');
       });
 
       fortifyCertificates.addEventListener('selectionSuccess', (event: any) => {
@@ -85,7 +86,7 @@ const FortifyCertificatesComponent = () => {
       {/* El componente se renderiza dinámicamente */}
       <Link
       className={`${buttonVariants()}`}
-      href={"./create"}
+      href={"/fortify/create"}
       style={{
         position: 'absolute',
         top: '50px',
