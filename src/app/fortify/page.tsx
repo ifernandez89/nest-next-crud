@@ -1,6 +1,6 @@
 "use client";
 
-import FortifyComponent from "./FortifyComponent";
+import FortifyComponent from "./chooseCertificate";
 
 function SignDocument() {
   /*const handleSignDocument = () => {

@@ -7,7 +7,7 @@ import { createProduct, updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
-import FortifyComponent from "@/app/fortify/FortifyComponent";
+import FortifyComponent from "@/app/fortify/chooseCertificate";
 
 /*interface Product {
   id: string;
