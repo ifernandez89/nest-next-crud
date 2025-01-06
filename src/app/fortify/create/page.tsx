@@ -69,11 +69,10 @@ const FortifyEnrollmentComponent = () => {
         console.log(event);
       });
 
-     // Insertar el componente en el DOM
-     const container = document.getElementById("fortify-container");
-     if (container) {
-       container.appendChild(fortifyEnrollment);
-     }
+      const container = document.getElementById("fortify-container");
+      if (container && !container.querySelector("peculiar-fortify-enrollment")) {
+        container.appendChild(fortifyEnrollment);
+      }
     };
     document.body.appendChild(script);
 
