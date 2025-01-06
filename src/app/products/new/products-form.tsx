@@ -7,7 +7,6 @@ import { createProduct, updateProduct } from "../products.api";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
-import FortifyComponent from "@/app/fortify/chooseCertificate";
 
 /*interface Product {
   id: string;
@@ -28,12 +27,6 @@ export function ProductsForm({ product }: any) {
 
   const router = useRouter();
   const params = useParams<{ id: string }>();
-
-  const handleSignDocument = () => {
-    // Lógica para disparar el componente FortifyComponent
-    console.log('Firmar un Documento');
-    // Aquí puedes agregar cualquier lógica adicional que necesites
-  };
 
   const onSubmit = handleSubmit(async (data) => {
     const priceString = data.price.toString();
