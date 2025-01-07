@@ -2,10 +2,33 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+export async function signPdfOnServer(pdfFile: File, certificateFile: File) {
+  const formData = new FormData();
+  formData.append("pdf", pdfFile);
+  formData.append("certificate", certificateFile);
+
+  const response = await fetch(`${BACKEND_URL}/sign-pdf`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error al firmar el PDF en el servidor: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return Buffer.from(data.signedPdf, "base64");
+}
 
 const FortifyCertificatesComponent = () => {
   const router = useRouter();
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [selectedCertificate, setSelectedCertificate] = useState<File | null>(null);
+
   useEffect(() => {
     // Verificar si la página ya se ha recargado
     const hasReloaded = sessionStorage.getItem("hasReloaded");
@@ -21,9 +44,6 @@ const FortifyCertificatesComponent = () => {
     // Estilos globales para el body
     const body = document.body;
     body.style.height = "100vh";
-    //body.style.background = '#6D7D87';
-    /* body.style.margin = '0'; // Resetear márgenes
-    body.style.padding = '0'; // Resetear padding*/
 
     // Agregar el enlace de la fuente
     const fontLink = document.createElement("link");
@@ -60,13 +80,32 @@ const FortifyCertificatesComponent = () => {
       // Agregar eventos
       fortifyCertificates.addEventListener("selectionCancel", () => {
         router.push(`/`);
-        //alert('selectionCancel');
       });
 
-      fortifyCertificates.addEventListener("selectionSuccess", (event: any) => {
-        alert("selectionSuccess");
-        alert("certificateId: " + event.detail.certificateId);
-        alert("providerId: " + event.detail.providerId);        
+      fortifyCertificates.addEventListener("selectionSuccess", async (event: any) => {
+        //alert("selectionSuccess");
+        console.log("selectionSuccess", event.detail);
+        const certificateFile = new File([event.detail.certificate], "certificate.p12");
+        setSelectedCertificate(certificateFile);
+
+        if (pdfFile && certificateFile) {
+          try {
+            // Verificar que el PDF y el certificado estén bien seteados
+            if (!pdfFile || !certificateFile) {
+              throw new Error("El archivo PDF o el certificado no están correctamente configurados.");
+            }
+
+            // Subir el PDF y el certificado al servidor para firmar
+            const signedPdf = await signPdfOnServer(pdfFile, certificateFile);
+            console.log("PDF firmado:", signedPdf);
+
+            // Descargar el PDF firmado
+            downloadFile(signedPdf.buffer, "signed_document.pdf");
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Ocurrió un error durante el proceso de firma.");
+          }
+        }
       });
 
       const container = document.getElementById("fortify-container");
@@ -75,6 +114,55 @@ const FortifyCertificatesComponent = () => {
       }
     };
     document.body.appendChild(script);
+
+    // Agregar el evento al input de archivo
+    const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+    const continueButton = document.getElementById("continueButton") as HTMLButtonElement;
+
+    if (fileInput) {
+      fileInput.addEventListener("change", (event) => {
+        event.preventDefault(); // Prevenir el comportamiento predeterminado
+        const file = (event.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+
+        setPdfFile(file);
+        //alert("PDF cargado correctamente.");
+        console.log("PDF cargado correctamente.", file);
+      });
+    }
+
+    if (continueButton) {
+      continueButton.addEventListener("click", async (event) => {
+        event.preventDefault(); // Prevenir el comportamiento predeterminado
+        console.log("Botón continuar presionado.");
+        if (!pdfFile) {
+          alert("Selecciona un archivo PDF primero.");
+          return;
+        }
+
+        if (!selectedCertificate) {
+          alert("Selecciona un certificado primero.");
+          return;
+        }
+
+        try {
+          // Verificar que el PDF y el certificado estén bien seteados
+          if (!pdfFile || !selectedCertificate) {
+            throw new Error("El archivo PDF o el certificado no están correctamente configurados.");
+          }
+
+          // Subir el PDF y el certificado al servidor para firmar
+          const signedPdf = await signPdfOnServer(pdfFile, selectedCertificate);
+          console.log("PDF firmado:", signedPdf);
+
+          // Descargar el PDF firmado
+          downloadFile(signedPdf.buffer, "signed_document.pdf");
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Ocurrió un error durante el proceso de firma.");
+        }
+      });
+    }
 
     // Limpiar los elementos añadidos al desmontar el componente
     return () => {
@@ -90,7 +178,15 @@ const FortifyCertificatesComponent = () => {
           ?.removeChild(fortifyCertificates);
       }
     };
-  }, []);
+  }, [router, pdfFile, selectedCertificate]);
+
+  function downloadFile(data: ArrayBuffer, filename: string) {
+    const blob = new Blob([data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
 
   return (
     <div
@@ -103,6 +199,8 @@ const FortifyCertificatesComponent = () => {
       }}
     >
       {/* El componente se renderiza dinámicamente */}
+      <input type="file" id="fileInput" accept="application/pdf" />
+      <button id="continueButton">Continuar</button>
       <Link
         className={`${buttonVariants()}`}
         href={"/fortify/create"}
@@ -119,7 +217,3 @@ const FortifyCertificatesComponent = () => {
 };
 
 export default FortifyCertificatesComponent;
-
-function readFileAsArrayBuffer(file: File | undefined) {
-  throw new Error("Function not implemented.");
-}

@@ -23,7 +23,6 @@ interface MyPageProps extends NextPageContext {
 }*/
 
 
-
 async function ProductsNewPage({ params }: PageProps) {
 //const params = useParams<{ id: string }>();
 
