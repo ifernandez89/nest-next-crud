@@ -83,10 +83,14 @@ const FortifyCertificatesComponent = () => {
       });
 
       fortifyCertificates.addEventListener("selectionSuccess", async (event: any) => {
-        //alert("selectionSuccess");
-        console.log("selectionSuccess", event.detail);
+        alert("selectionSuccess");
+        
         const certificateFile = new File([event.detail.certificate], "certificate.p12");
         setSelectedCertificate(certificateFile);
+
+        console.log("pdf seleccionado", pdfFile);
+        console.log("certificado seleccionado", certificateFile);
+
 
         if (pdfFile && certificateFile) {
           try {
@@ -131,7 +135,7 @@ const FortifyCertificatesComponent = () => {
       });
     }
 
-    if (continueButton) {
+    /*if (continueButton) {
       continueButton.addEventListener("click", async (event) => {
         event.preventDefault(); // Prevenir el comportamiento predeterminado
         console.log("Botón continuar presionado.");
@@ -162,7 +166,7 @@ const FortifyCertificatesComponent = () => {
           alert("Ocurrió un error durante el proceso de firma.");
         }
       });
-    }
+    }*/
 
     // Limpiar los elementos añadidos al desmontar el componente
     return () => {
@@ -199,8 +203,9 @@ const FortifyCertificatesComponent = () => {
       }}
     >
       {/* El componente se renderiza dinámicamente */}
-      <input type="file" id="fileInput" accept="application/pdf" />
-      <button id="continueButton">Continuar</button>
+
+      
+      
       <Link
         className={`${buttonVariants()}`}
         href={"/fortify/create"}
@@ -212,6 +217,11 @@ const FortifyCertificatesComponent = () => {
       >
         Crear Certificado
       </Link>
+
+      <input style={{
+          position: "absolute",
+          bottom: "100px",
+        }} type="file" id="fileInput" accept="application/pdf" />
     </div>
   );
 };
