@@ -7,15 +7,16 @@ import { PDFDocument } from "pdf-lib";
 const app = express();
 const port = 4000;
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Aumentar el límite de tamaño de carga
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 const upload = multer({ dest: "uploads/" });
 
 interface SignPdfRequest extends Request {
   files?: {
-    pdf: multer.File[];
-    certificate: multer.File[];
+    pdf: Express.Multer.File[];
+    certificate: Express.Multer.File[];
   };
 }
 

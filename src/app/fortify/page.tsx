@@ -7,11 +7,14 @@ import { useEffect, useState } from "react";
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function signPdfOnServer(pdfFile: File, certificateFile: File) {
+  /*const pdfBase64 = await fileToBase64(pdfFile);
+  const certificateBase64 = await fileToBase64(certificateFile);*/
   const formData = new FormData();
   formData.append("pdf", pdfFile);
   formData.append("certificate", certificateFile);
+  
 
-  const response = await fetch(`${BACKEND_URL}/sign-pdf`, {
+  const response = await fetch(`${BACKEND_URL}/api/signature/sign`, {
     method: "POST",
     body: formData,
   });
@@ -22,6 +25,15 @@ export async function signPdfOnServer(pdfFile: File, certificateFile: File) {
 
   const data = await response.json();
   return Buffer.from(data.signedPdf, "base64");
+}
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve((reader.result as string).split(",")[1]);
+    reader.onerror = (error) => reject(error);
+  });
 }
 
 const FortifyCertificatesComponent = () => {
@@ -83,14 +95,9 @@ const FortifyCertificatesComponent = () => {
       });
 
       fortifyCertificates.addEventListener("selectionSuccess", async (event: any) => {
-        alert("selectionSuccess");
-        
+        console.log("selectionSuccess", event.detail);
         const certificateFile = new File([event.detail.certificate], "certificate.p12");
         setSelectedCertificate(certificateFile);
-
-        console.log("pdf seleccionado", pdfFile);
-        console.log("certificado seleccionado", certificateFile);
-
 
         if (pdfFile && certificateFile) {
           try {
@@ -131,7 +138,8 @@ const FortifyCertificatesComponent = () => {
 
         setPdfFile(file);
         //alert("PDF cargado correctamente.");
-        console.log("PDF cargado correctamente.", file);
+console.log("PDF cargado correctamente.", file);
+
       });
     }
 
@@ -203,9 +211,8 @@ const FortifyCertificatesComponent = () => {
       }}
     >
       {/* El componente se renderiza dinámicamente */}
-
       
-      
+     
       <Link
         className={`${buttonVariants()}`}
         href={"/fortify/create"}
