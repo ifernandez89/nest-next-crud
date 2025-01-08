@@ -3,12 +3,12 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { signPdfOnServer } from "./sign.api";
+
+/* lo pase a sign.api.ts!!!!!
 
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
 export async function signPdfOnServer(pdfFile: File, certificateFile: File) {
-  /*const pdfBase64 = await fileToBase64(pdfFile);
-  const certificateBase64 = await fileToBase64(certificateFile);*/
   const formData = new FormData();
   formData.append("pdf", pdfFile);
   formData.append("certificate", certificateFile);
@@ -25,7 +25,7 @@ export async function signPdfOnServer(pdfFile: File, certificateFile: File) {
 
   const data = await response.json();
   return Buffer.from(data.signedPdf, "base64");
-}
+}*/
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
